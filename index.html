@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA TEST IX — AURAT3ST.COM</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital@0;1&display=swap');
+
+  :root {
+    --ink: #1a1208;
+    --paper: #f5f0e8;
+    --smudge: #d4c9b0;
+    --accent: #8b0000;
+    --stamp: #2c4a1e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    min-height: 100vh;
+    transition: background-color 1.2s ease;
+  }
+
+  /* ── COVER ── */
+  #cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 3px double var(--ink);
+    position: relative;
+  }
+  #cover::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1px solid var(--smudge);
+    pointer-events: none;
+  }
+  .cover-ix {
+    font-family: 'Special Elite', cursive;
+    font-size: clamp(48px, 10vw, 96px);
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+  .cover-ix span { color: var(--accent); }
+  .cover-sub {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin: 18px 0 6px;
+    color: #555;
+  }
+  .cover-tagline {
+    font-size: 11px;
+    max-width: 380px;
+    margin: 16px auto;
+    color: #555;
+    line-height: 2;
+  }
+  .cover-instructions {
+    max-width: 420px;
+    margin: 20px auto;
+    text-align: left;
+    border: 1px solid var(--smudge);
+    padding: 20px 24px;
+    font-size: 11px;
+    line-height: 2;
+    color: #444;
+  }
+  .cover-instructions h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 13px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--smudge);
+    padding-bottom: 6px;
+  }
+  .cover-instructions .blue-aura {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--smudge);
+    font-size: 10px;
+    color: #4169b8;
+    line-height: 1.9;
+  }
+  .cover-maya {
+    font-family: 'Special Elite', cursive;
+    font-size: 16px;
+    margin: 24px 0 4px;
+    letter-spacing: 3px;
+  }
+  .cover-byline {
+    font-size: 10px;
+    color: #888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 2;
+  }
+  .begin-btn {
+    margin-top: 36px;
+    padding: 14px 40px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .begin-btn:hover { background: var(--accent); }
+  .no-data { font-size: 9px; letter-spacing: 3px; color: #aaa; text-align: center; margin-top: 12px; }
+
+  /* ── FORM ── */
+  #test-form { display: none; max-width: 720px; margin: 0 auto; padding: 60px 24px 100px; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin: 56px 0 28px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-num {
+    font-family: 'Special Elite', cursive;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  .q-block { margin-bottom: 28px; }
+  .q-label { display: block; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.5px; }
+  .q-note { display: block; font-size: 10px; color: #888; font-style: italic; margin-bottom: 10px; }
+
+  /* radio buttons */
+  .options-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .opt-label {
+    display: flex; align-items: center; gap: 6px;
+    cursor: pointer; padding: 6px 12px;
+    border: 1px solid var(--smudge);
+    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+  }
+  .opt-label:hover { border-color: var(--ink); background: #ece7da; }
+  .opt-label input { display: none; }
+  .opt-label.selected { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* YSYM */
+  .ysym-table { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
+  .ysym-table th, .ysym-table td { padding: 8px 12px; text-align: center; font-size: 11px; letter-spacing: 1px; }
+  .ysym-table th { border-bottom: 1px solid var(--smudge); color: #888; }
+  .ysym-table td:first-child { text-align: left; }
+  .ysym-table tr:not(:last-child) td { border-bottom: 1px solid #e8e0d0; }
+  .ysym-btn {
+    width: 28px; height: 28px;
+    border: 1px solid var(--smudge); background: transparent;
+    cursor: pointer; font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    transition: background 0.15s;
+  }
+  .ysym-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* inputs */
+  .txt-input, .txt-area {
+    width: 100%; border: none;
+    border-bottom: 1px solid var(--smudge);
+    background: transparent;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px; padding: 8px 4px; color: var(--ink);
+    outline: none; transition: border-color 0.2s;
+  }
+  .txt-input:focus, .txt-area:focus { border-color: var(--ink); }
+  .txt-area {
+    resize: vertical; min-height: 60px;
+    border: 1px solid var(--smudge); padding: 8px; margin-top: 4px;
+  }
+
+  /* percentage */
+  .pct-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .pct-label { font-size: 11px; letter-spacing: 1px; width: 16px; flex-shrink: 0; }
+  .pct-input {
+    width: 70px; border: none;
+    border-bottom: 1px solid var(--smudge);
+    background: transparent;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px; padding: 4px; text-align: right;
+    outline: none; color: var(--ink);
+  }
+  .pct-input:focus { border-color: var(--ink); }
+  .pct-unit { font-size: 10px; color: #888; }
+  .pct-desc { font-size: 11px; color: #888; flex: 1; }
+
+  /* ── CROSS TEST ── */
+  .cross-wrap { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+  .cross-canvas-wrap { position: relative; width: 300px; height: 300px; flex-shrink: 0; }
+  #crossCanvas { border: 1px solid var(--smudge); background: #faf7f0; cursor: crosshair; display: block; }
+  .cross-axis-label {
+    position: absolute; font-size: 9px; letter-spacing: 2px;
+    color: #888; text-transform: uppercase;
+  }
+  .cross-axis-label.top    { top: 4px; left: 50%; transform: translateX(-50%); }
+  .cross-axis-label.bottom { bottom: 4px; left: 50%; transform: translateX(-50%); }
+  .cross-axis-label.left   { left: 4px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+  .cross-axis-label.right  { right: 4px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+  .cross-legend {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px 24px; font-size: 10px; letter-spacing: 1px;
+    width: 100%; max-width: 360px;
+  }
+  .cross-legend-item { display: flex; align-items: center; gap: 6px; }
+  .cross-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .cross-coords { font-size: 9px; color: #aaa; }
+
+  /* ── POKEMON CARD ── */
+  .poke-disclaimer {
+    font-size: 9px; color: #999; line-height: 1.8;
+    border: 1px dashed var(--smudge); padding: 10px 14px;
+    margin-bottom: 20px; max-width: 480px;
+  }
+  .poke-layout { display: flex; gap: 32px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 24px; }
+
+  /* THE CARD */
+  .poke-card {
+    width: 280px; flex-shrink: 0;
+    border: 4px solid #b8860b;
+    border-radius: 12px;
+    background: linear-gradient(160deg, #fff8dc 0%, #ffe680 100%);
+    padding: 0;
+    position: relative;
+    box-shadow: 2px 4px 12px rgba(0,0,0,0.18), inset 0 0 0 2px #ffd700;
+    font-family: 'IBM Plex Mono', monospace;
+    overflow: hidden;
+  }
+  .poke-card-header {
+    background: linear-gradient(90deg, #c8a000 0%, #e8c000 50%, #c8a000 100%);
+    padding: 8px 12px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .poke-card-name {
+    font-family: 'Special Elite', cursive;
+    font-size: 15px; letter-spacing: 1px;
+    color: #1a0a00; text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+  }
+  .poke-card-hp {
+    font-size: 10px; color: #1a0a00; font-weight: bold;
+    letter-spacing: 1px;
+  }
+  .poke-card-img-wrap {
+    background: linear-gradient(180deg, #e8f4ff 0%, #d0e8ff 100%);
+    border-top: 2px solid #b8860b; border-bottom: 2px solid #b8860b;
+    display: flex; align-items: center; justify-content: center;
+    height: 130px; position: relative; overflow: hidden;
+  }
+  .poke-card-img-wrap canvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    width: 112px; height: 112px;
+  }
+  .poke-type-badge {
+    position: absolute; bottom: 6px; right: 8px;
+    font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+    background: rgba(0,0,0,0.55); color: #fff;
+    padding: 2px 6px; border-radius: 3px;
+  }
+  .poke-card-body { padding: 10px 12px; }
+  .poke-card-desc {
+    font-size: 9px; color: #333; line-height: 1.6;
+    min-height: 32px; margin-bottom: 8px;
+    font-style: italic;
+  }
+  .poke-card-bars { margin: 6px 0; }
+  .poke-bar-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+  .poke-bar-lbl { font-size: 7px; letter-spacing: 1.5px; text-transform: uppercase; width: 56px; color: #555; }
+  .poke-bar-outer { flex: 1; height: 6px; background: #ddd; border-radius: 3px; overflow: hidden; }
+  .poke-bar-inner { height: 100%; border-radius: 3px; transition: width 0.4s; }
+  .poke-bar-val { font-size: 8px; width: 26px; text-align: right; color: #333; }
+  .poke-card-move {
+    margin-top: 8px; padding-top: 8px;
+    border-top: 1px dashed #b8860b;
+    font-size: 8px; letter-spacing: 0.5px; color: #333;
+  }
+  .poke-card-move strong { color: #8b0000; text-transform: uppercase; letter-spacing: 1px; }
+  .poke-card-footer {
+    background: linear-gradient(90deg, #c8a000 0%, #e8c000 50%, #c8a000 100%);
+    padding: 4px 12px; font-size: 7px; letter-spacing: 2px;
+    color: #1a0a00; text-align: center;
+    border-top: 2px solid #b8860b;
+  }
+
+  /* form side of pokemon */
+  .poke-form-side { flex: 1; min-width: 220px; }
+  .poke-form-side .q-block { margin-bottom: 18px; }
+
+  /* sprite picker */
+  .sprite-picker { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .sprite-opt {
+    width: 56px; height: 56px;
+    border: 2px solid var(--smudge); border-radius: 6px;
+    background: #f0f0f0; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; transition: border-color 0.15s;
+    position: relative;
+  }
+  .sprite-opt:hover { border-color: #b8860b; }
+  .sprite-opt.chosen { border-color: #b8860b; box-shadow: 0 0 0 2px #ffd70088; }
+  .sprite-opt canvas { image-rendering: pixelated; width: 48px; height: 48px; }
+  .sprite-opt .sprite-num { position: absolute; bottom: 1px; right: 3px; font-size: 7px; color: #aaa; }
+
+  /* ── REWOT EMOJI REACTS ── */
+  .rewot-item { margin-bottom: 28px; }
+  .rewot-stmt {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic; font-size: 14px;
+    margin-bottom: 10px; padding-left: 12px;
+    border-left: 2px solid var(--accent);
+  }
+  .emoji-reacts { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .emoji-btn {
+    padding: 5px 10px; border: 1px solid var(--smudge);
+    background: transparent; cursor: pointer;
+    font-size: 16px; border-radius: 20px;
+    transition: background 0.15s, transform 0.1s;
+    user-select: none;
+  }
+  .emoji-btn:hover { background: #ece7da; transform: scale(1.15); }
+  .emoji-btn.reacted { background: var(--ink); border-color: var(--ink); filter: brightness(1.8); }
+
+  /* apps list */
+  .apps-list { list-style: none; counter-reset: app-counter; }
+  .apps-list li {
+    counter-increment: app-counter;
+    display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+  }
+  .apps-list li::before {
+    content: counter(app-counter);
+    font-family: 'Special Elite', cursive; font-size: 18px;
+    color: var(--smudge); width: 20px; flex-shrink: 0;
+  }
+
+  /* submit */
+  .submit-zone {
+    margin-top: 60px; text-align: center;
+    padding: 40px; border: 2px dashed var(--smudge);
+  }
+  .submit-note { font-size: 11px; color: #888; margin-bottom: 20px; line-height: 2; }
+  .submit-btn {
+    padding: 16px 48px; background: var(--accent); color: #fff;
+    border: none; font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; letter-spacing: 4px; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s, transform 0.1s;
+  }
+  .submit-btn:hover { background: var(--ink); }
+  .submit-btn:active { transform: scale(0.98); }
+
+  /* ── RESULT ── */
+  #result-section { display: none; max-width: 720px; margin: 0 auto; padding: 60px 24px 100px; }
+  .result-card {
+    border: 4px solid var(--ink); padding: 32px;
+    text-align: center; position: relative;
+  }
+  .result-card::before {
+    content: 'AURA TEST IX — RESULT';
+    position: absolute; top: -13px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--paper); padding: 0 12px;
+    font-size: 9px; letter-spacing: 4px; white-space: nowrap;
+  }
+  .result-poke-card-wrap { display: flex; justify-content: center; margin: 24px 0; }
+  .result-card-name { font-family: 'Special Elite', cursive; font-size: 28px; letter-spacing: 4px; margin: 16px 0 4px; }
+  .result-card-overall { font-size: 11px; letter-spacing: 3px; color: #888; text-transform: uppercase; margin-bottom: 20px; }
+  .result-card-desc { font-family: 'Libre Baskerville', serif; font-style: italic; font-size: 14px; margin: 16px 0; line-height: 1.8; color: #333; }
+  .result-power-bars { max-width: 360px; margin: 24px auto; }
+  .power-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .power-row-label { font-size: 9px; letter-spacing: 2px; width: 70px; text-transform: uppercase; }
+  .power-bar-outer { flex: 1; height: 8px; background: var(--smudge); }
+  .power-bar-inner { height: 100%; background: var(--ink); transition: width 0.4s; }
+  .power-val { font-size: 10px; width: 32px; text-align: right; }
+  .result-special { margin-top: 20px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+  .result-special span { color: var(--accent); font-style: italic; text-transform: none; letter-spacing: 0; }
+  .aura-colour-display {
+    width: 60px; height: 60px; border-radius: 50%;
+    margin: 0 auto 12px; border: 3px solid var(--ink);
+  }
+  .result-footer { margin-top: 40px; font-size: 10px; color: #aaa; letter-spacing: 2px; line-height: 2.5; }
+  .invalid-btn {
+    margin-top: 24px; padding: 10px 28px;
+    border: 1px solid var(--smudge); background: transparent;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+    letter-spacing: 3px; cursor: pointer; color: #888;
+  }
+  .invalid-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* util */
+  .divider { border: none; border-top: 1px solid var(--smudge); margin: 8px 0; }
+  .stamp-note {
+    display: inline-block; border: 2px solid var(--stamp);
+    color: var(--stamp); padding: 4px 10px;
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    transform: rotate(-2deg); margin: 8px 0;
+  }
+
+  @media (max-width: 560px) {
+    .poke-layout { flex-direction: column; align-items: center; }
+    .cross-canvas-wrap { width: 260px; height: 260px; }
+    #crossCanvas { width: 260px; height: 260px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ COVER ═══ -->
+<section id="cover">
+  <div class="cover-ix">AURA<span>TEST</span><br>IX</div>
+  <div class="cover-sub">Recommended Age 25+</div>
+  <p class="cover-tagline">
+    This test measures your distance from the end of information<br>
+    It is a good proxy for your ability to become a mayagirl in mayaworld<br>
+    <em>Wake up, Maya</em> &nbsp;·&nbsp; <span style="font-size:10px;color:#aaa">*maya is Sanskrit for delulu</span>
+  </p>
+
+  <div class="cover-instructions">
+    <h3>Test Instructions</h3>
+    Only answer questions you enjoy answering.<br>
+    No question is mandatory.<br>
+    Feel free to give supplementary information.<br>
+    Take your time.<br>
+    If you feel sick at any time, mark the test <strong>Invalide!</strong>, and rest.<br>
+    You do not have to complete the test.
+    <div class="blue-aura">
+      <strong>For those with Blue Auras:</strong><br>
+      If you would like to opt in to receive further Aura Tests,<br>
+      please send <strong>5</strong> in your local currency to:<br>
+      MayaPSOS, The Ministry, 3 Hunter James Street, London SE1 0AG<br>
+      being sure to include your return address.<br><br>
+      Or if you prefer internet communication<br>
+      please join <strong>may4w0r1d</strong> ($11)<br>
+      and leave a comment in <strong>room 226</strong>
+    </div>
+  </div>
+
+  <div class="cover-maya">Dr. Jung Falooda</div>
+  <div class="cover-byline">
+    Pysshcology Department of Maya University<br>
+    <span class="stamp-note">NO SAVED DATA</span>
+  </div>
+  <button class="begin-btn" onclick="startTest()">Begin Test</button>
+  <p class="no-data">Conversation is the new Data!</p>
+</section>
+
+<!-- ═══ FORM ═══ -->
+<div id="test-form">
+  <form id="aura-form" onsubmit="return false;">
+
+    <!-- §1 DEMOGRAPHICS -->
+    <div class="section-header">
+      <span class="section-num">1</span>
+      <span class="section-title">Demographics</span>
+    </div>
+
+    <div class="q-block">
+      <label class="q-label">What is your favourite nut?</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="nut" value="walnut"> Walnut/Pecan</label>
+        <label class="opt-label"><input type="radio" name="nut" value="almond"> Almond</label>
+        <label class="opt-label"><input type="radio" name="nut" value="cashew"> Cashew</label>
+        <label class="opt-label"><input type="radio" name="nut" value="hazelnut"> Hazelnut</label>
+        <label class="opt-label"><input type="radio" name="nut" value="macadamia"> Macadamia</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <label class="q-label">What kind of river are you?</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="river" value="deep"> Deep</label>
+        <label class="opt-label"><input type="radio" name="river" value="winding"> Winding</label>
+        <label class="opt-label"><input type="radio" name="river" value="long"> Long</label>
+        <label class="opt-label"><input type="radio" name="river" value="flowing"> Flowing</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <label class="q-label">What defines where you're from?</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="origin" value="secondary school"> Secondary School</label>
+        <label class="opt-label"><input type="radio" name="origin" value="birthplace"> Birthplace</label>
+        <label class="opt-label"><input type="radio" name="origin" value="parents"> Parents</label>
+        <label class="opt-label"><input type="radio" name="origin" value="accent"> Accent</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <label class="q-label">Can you accept things without proof?</label>
+      <input type="text" class="txt-input" name="without_proof" placeholder="—">
+    </div>
+    <div class="q-block">
+      <label class="q-label">Do you have a wedding night fantasy?</label>
+      <input type="text" class="txt-input" name="wedding_fantasy" placeholder="—">
+    </div>
+    <div class="q-block">
+      <label class="q-label">What is your favourite non local fruit?</label>
+      <input type="text" class="txt-input" name="nonlocal_fruit" placeholder="—">
+    </div>
+    <div class="q-block">
+      <label class="q-label">Have you ever touched a billionaire?</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="touched_billionaire" value="yes"> Yes</label>
+        <label class="opt-label"><input type="radio" name="touched_billionaire" value="no"> No</label>
+        <label class="opt-label"><input type="radio" name="touched_billionaire" value="unsure"> Unsure</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <span class="q-label">Please tick boxes: <em>(Y = Yes, S = Sometimes, M = Maybe, N = No)</em></span>
+      <table class="ysym-table">
+        <thead><tr><th></th><th>Y</th><th>S</th><th>M</th><th>N</th></tr></thead>
+        <tbody>
+          <tr data-key="travelling">
+            <td>Travelling with people is intimate</td>
+            <td><button type="button" class="ysym-btn" data-opt="Y">Y</button></td>
+            <td><button type="button" class="ysym-btn" data-opt="S">S</button></td>
+            <td><button type="button" class="ysym-btn" data-opt="M">M</button></td>
+            <td><button type="button" class="ysym-btn" data-opt="N">N</button></td>
+          </tr>
+          <tr data-key="performing">
+            <td>I can tell when someone is performing</td>
+            <td><button type="button" class="ysym-btn" data-opt="Y">Y</button></td>
+            <td><button type="button" class="ysym-btn" data-opt="S">S</button></td>
+            <td><button type="button" class="ysym-btn" data-opt="M">M</button></td>
+            <td><button type="button" class="ysym-btn" data-opt="N">N</button></td>
+          </tr>
+          <tr data-key="corners">
+            <td>I am skilled at cutting corners</td>
+            <td><button type="button" class="ysym-btn" data-opt="Y">Y</button></td>
+            <td><button type="button" class="ysym-btn" data-opt="S">S</button></td>
+            <td><button type="button" class="ysym-btn" data-opt="M">M</button></td>
+            <td><button type="button" class="ysym-btn" data-opt="N">N</button></td>
+          </tr>
+          <tr data-key="decisions">
+            <td>I am good at making decisions</td>
+            <td><button type="button" class="ysym-btn" data-opt="Y">Y</button></td>
+            <td><button type="button" class="ysym-btn" data-opt="S">S</button></td>
+            <td><button type="button" class="ysym-btn" data-opt="M">M</button></td>
+            <td><button type="button" class="ysym-btn" data-opt="N">N</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- §2 CROSS TEST -->
+    <div class="section-header">
+      <span class="section-num">2</span>
+      <span class="section-title">Cross Test</span>
+    </div>
+    <span class="q-note">Click or drag on the canvas to plot each point. Each axis runs 0–100.</span>
+
+    <div class="cross-wrap">
+      <div class="cross-canvas-wrap">
+        <canvas id="crossCanvas" width="300" height="300"></canvas>
+        <span class="cross-axis-label top">SUCCESS</span>
+        <span class="cross-axis-label bottom">HUMILIATION</span>
+        <span class="cross-axis-label left">FEAR</span>
+        <span class="cross-axis-label right">DESIRE</span>
+      </div>
+      <div style="width:100%;max-width:360px;">
+        <div class="cross-legend" id="crossLegend"></div>
+        <p style="font-size:9px;color:#aaa;margin-top:10px;letter-spacing:1px;">Click canvas to place · click dot to remove · drag to reposition</p>
+      </div>
+    </div>
+
+    <!-- hidden inputs to store cross values -->
+    <input type="hidden" name="cross_data" id="cross_data" value="[]">
+
+    <div class="q-block" style="margin-top:28px;">
+      <label class="q-label">Which of these are you closest to?</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="archetype" value="politician"> Politician</label>
+        <label class="opt-label"><input type="radio" name="archetype" value="statistician"> Statistician</label>
+        <label class="opt-label"><input type="radio" name="archetype" value="musician"> Musician</label>
+        <label class="opt-label"><input type="radio" name="archetype" value="magician"> Magician</label>
+      </div>
+    </div>
+    <div class="q-block">
+      <label class="q-label">Your default response to difficulty:</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="difficulty_response" value="cry"> Cry</label>
+        <label class="opt-label"><input type="radio" name="difficulty_response" value="moan"> Moan</label>
+        <label class="opt-label"><input type="radio" name="difficulty_response" value="puzzlement"> Puzzlement</label>
+        <label class="opt-label"><input type="radio" name="difficulty_response" value="feedback"> Feedback</label>
+      </div>
+    </div>
+
+    <!-- §3 POKEMON CARD -->
+    <div class="section-header">
+      <span class="section-num">3</span>
+      <span class="section-title">Rare "Pokemon" Test</span>
+    </div>
+
+    <div class="poke-disclaimer">
+      Please fill out the "Pokemon" card. This work bears no resemblance to Pokémon®,
+      a registered trademark of Nintendo, Game Freak, and Creatures Inc. Any perceived
+      similarity is coincidental, imaginary, or requires further investigation.
+    </div>
+
+    <div class="poke-layout">
+      <!-- live card preview -->
+      <div class="poke-card" id="pokeCard">
+        <div class="poke-card-header">
+          <div class="poke-card-name" id="cardName">——</div>
+          <div class="poke-card-hp">HP <span id="cardHp">??</span></div>
+        </div>
+        <div class="poke-card-img-wrap">
+          <canvas id="pokeCanvas" width="96" height="96"></canvas>
+          <span class="poke-type-badge" id="cardType">LEGENDARY</span>
+        </div>
+        <div class="poke-card-body">
+          <div class="poke-card-desc" id="cardDesc">Awaiting description...</div>
+          <div class="poke-card-bars" id="cardBars">
+            <div class="poke-bar-row"><span class="poke-bar-lbl">BRAVERY</span><div class="poke-bar-outer"><div class="poke-bar-inner" id="pb-a" style="width:50%;background:#8b0000"></div></div><span class="poke-bar-val" id="pv-a">50</span></div>
+            <div class="poke-bar-row"><span class="poke-bar-lbl">STRENGTH</span><div class="poke-bar-outer"><div class="poke-bar-inner" id="pb-b" style="width:50%;background:#8b0000"></div></div><span class="poke-bar-val" id="pv-b">50</span></div>
+            <div class="poke-bar-row"><span class="poke-bar-lbl">CHEER</span><div class="poke-bar-outer"><div class="poke-bar-inner" id="pb-c" style="width:50%;background:#8b0000"></div></div><span class="poke-bar-val" id="pv-c">50</span></div>
+            <div class="poke-bar-row"><span class="poke-bar-lbl">STERLING</span><div class="poke-bar-outer"><div class="poke-bar-inner" id="pb-d" style="width:50%;background:#8b0000"></div></div><span class="poke-bar-val" id="pv-d">50</span></div>
+          </div>
+          <div class="poke-card-move" id="cardMove"><strong>Special Move —</strong> awaiting input</div>
+        </div>
+        <div class="poke-card-footer">AURA TEST IX · MAYA UNIVERSITY · illus. Dr. Jung Falooda</div>
+      </div>
+
+      <!-- form side -->
+      <div class="poke-form-side">
+        <div class="q-block">
+          <label class="q-label">Name <span style="color:#aaa">(max 20 chars)</span></label>
+          <input type="text" class="txt-input" name="pokemon_name" id="inputName" maxlength="20" placeholder="Your character name">
+        </div>
+        <div class="q-block">
+          <label class="q-label">Describe character <span style="color:#aaa">(max 140 chars)</span></label>
+          <textarea class="txt-area" name="pokemon_desc" id="inputDesc" maxlength="140" placeholder="Include any features..."></textarea>
+        </div>
+        <div class="q-block">
+          <label class="q-label">Special Move <span style="color:#aaa">(max 80 chars)</span></label>
+          <input type="text" class="txt-input" name="special_move" id="inputMove" maxlength="80" placeholder="What can only you do?">
+        </div>
+        <div class="q-block">
+          <label class="q-label">Choose your Legendary Pokémon</label>
+          <span class="q-note">Select one legendary sprite for your card</span>
+          <div class="sprite-picker" id="spritePicker"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- §4 DATA RESPONSIBILITY -->
+    <div class="section-header">
+      <span class="section-num">4</span>
+      <span class="section-title">Data Responsibility Test</span>
+    </div>
+    <span class="q-note">If you were only allowed 5 apps on your phone (including native apps), which 5 would you choose?</span>
+    <ul class="apps-list" style="margin-top:16px;">
+      <li><input type="text" class="txt-input" name="app1" placeholder="App 1"></li>
+      <li><input type="text" class="txt-input" name="app2" placeholder="App 2"></li>
+      <li><input type="text" class="txt-input" name="app3" placeholder="App 3"></li>
+      <li><input type="text" class="txt-input" name="app4" placeholder="App 4"></li>
+      <li><input type="text" class="txt-input" name="app5" placeholder="App 5"></li>
+    </ul>
+
+    <div class="q-block" style="margin-top:28px;">
+      <label class="q-label">What percentage of time are you the first to:</label>
+      <div class="pct-row">
+        <span class="pct-label">A.</span>
+        <span class="pct-desc">APOLOGISE</span>
+        <input type="number" class="pct-input" name="apology_pct" min="0" max="100" placeholder="__" oninput="updatePreviewBar('a',this.value)">
+        <span class="pct-unit">%</span>
+      </div>
+      <div class="pct-row">
+        <span class="pct-label">B.</span>
+        <span class="pct-desc">FORGIVE</span>
+        <input type="number" class="pct-input" name="forgive_pct" min="0" max="100" placeholder="__" oninput="updatePreviewBar('b',this.value)">
+        <span class="pct-unit">%</span>
+      </div>
+      <div class="pct-row">
+        <span class="pct-label">C.</span>
+        <span class="pct-desc">FORGET</span>
+        <input type="number" class="pct-input" name="forget_pct" min="0" max="100" placeholder="__" oninput="updatePreviewBar('c',this.value)">
+        <span class="pct-unit">%</span>
+      </div>
+      <div class="pct-row">
+        <span class="pct-label">D.</span>
+        <span class="pct-desc" style="color:#555;">I do what I say</span>
+        <input type="number" class="pct-input" name="dosay_pct" min="0" max="100" placeholder="__" oninput="updatePreviewBar('d',this.value)">
+        <span class="pct-unit">% of the time</span>
+      </div>
+    </div>
+
+    <!-- §5 REWOT -->
+    <div class="section-header">
+      <span class="section-num">5</span>
+      <span class="section-title">Rewot Analysis</span>
+    </div>
+    <span class="q-note">React to the statements — emoji and/or text.</span>
+
+    <div class="rewot-item">
+      <div class="rewot-stmt">It is sad to have to use your talents for money</div>
+      <div class="emoji-reacts" data-group="rewot1">
+        <button type="button" class="emoji-btn" data-emoji="😢">😢</button>
+        <button type="button" class="emoji-btn" data-emoji="😤">😤</button>
+        <button type="button" class="emoji-btn" data-emoji="😌">😌</button>
+        <button type="button" class="emoji-btn" data-emoji="🤑">🤑</button>
+        <button type="button" class="emoji-btn" data-emoji="🎭">🎭</button>
+        <button type="button" class="emoji-btn" data-emoji="✨">✨</button>
+      </div>
+      <textarea class="txt-area" name="rewot1" placeholder="—"></textarea>
+    </div>
+
+    <div class="rewot-item">
+      <div class="rewot-stmt">When you leave a place, you have to leave things behind</div>
+      <div class="emoji-reacts" data-group="rewot2">
+        <button type="button" class="emoji-btn" data-emoji="🧳">🧳</button>
+        <button type="button" class="emoji-btn" data-emoji="💔">💔</button>
+        <button type="button" class="emoji-btn" data-emoji="🌱">🌱</button>
+        <button type="button" class="emoji-btn" data-emoji="👋">👋</button>
+        <button type="button" class="emoji-btn" data-emoji="🪦">🪦</button>
+        <button type="button" class="emoji-btn" data-emoji="🆓">🆓</button>
+      </div>
+      <textarea class="txt-area" name="rewot2" placeholder="—"></textarea>
+    </div>
+
+    <div class="rewot-item">
+      <div class="rewot-stmt">Pain is a sign to change direction</div>
+      <div class="emoji-reacts" data-group="rewot3">
+        <button type="button" class="emoji-btn" data-emoji="🧭">🧭</button>
+        <button type="button" class="emoji-btn" data-emoji="🩹">🩹</button>
+        <button type="button" class="emoji-btn" data-emoji="🔄">🔄</button>
+        <button type="button" class="emoji-btn" data-emoji="😤">😤</button>
+        <button type="button" class="emoji-btn" data-emoji="💪">💪</button>
+        <button type="button" class="emoji-btn" data-emoji="🤷">🤷</button>
+      </div>
+      <textarea class="txt-area" name="rewot3" placeholder="—"></textarea>
+    </div>
+
+    <div class="rewot-item">
+      <div class="rewot-stmt">The Empire has received a fruit basket</div>
+      <div class="emoji-reacts" data-group="rewot4">
+        <button type="button" class="emoji-btn" data-emoji="🍇">🍇</button>
+        <button type="button" class="emoji-btn" data-emoji="👑">👑</button>
+        <button type="button" class="emoji-btn" data-emoji="🤨">🤨</button>
+        <button type="button" class="emoji-btn" data-emoji="🕊️">🕊️</button>
+        <button type="button" class="emoji-btn" data-emoji="⚔️">⚔️</button>
+        <button type="button" class="emoji-btn" data-emoji="🫡">🫡</button>
+      </div>
+      <textarea class="txt-area" name="rewot4" placeholder="—"></textarea>
+    </div>
+
+    <div class="rewot-item">
+      <div class="rewot-stmt">Outsourcing thinking is an indicator of wealth</div>
+      <div class="emoji-reacts" data-group="rewot5">
+        <button type="button" class="emoji-btn" data-emoji="🧠">🧠</button>
+        <button type="button" class="emoji-btn" data-emoji="💸">💸</button>
+        <button type="button" class="emoji-btn" data-emoji="🤖">🤖</button>
+        <button type="button" class="emoji-btn" data-emoji="😏">😏</button>
+        <button type="button" class="emoji-btn" data-emoji="🏛️">🏛️</button>
+        <button type="button" class="emoji-btn" data-emoji="🫠">🫠</button>
+      </div>
+      <textarea class="txt-area" name="rewot5" placeholder="—"></textarea>
+    </div>
+
+    <!-- §6 PREFERENCE -->
+    <div class="section-header">
+      <span class="section-num">6</span>
+      <span class="section-title">Preference Test</span>
+    </div>
+    <span class="q-label" style="margin-bottom:20px;display:block;">Which of the following do you prefer?</span>
+    <div class="q-block">
+      <label class="q-label">1.</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="pref1" value="rejected"> Rejected</label>
+        <label class="opt-label"><input type="radio" name="pref1" value="ghosted"> Ghosted</label>
+      </div>
+    </div>
+    <div class="q-block">
+      <label class="q-label">2.</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="pref2" value="being seen"> Being Seen</label>
+        <label class="opt-label"><input type="radio" name="pref2" value="being loved"> Being Loved</label>
+      </div>
+    </div>
+    <div class="q-block">
+      <label class="q-label">3.</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="pref3" value="girls"> Girls</label>
+        <label class="opt-label"><input type="radio" name="pref3" value="gays"> Gays</label>
+      </div>
+    </div>
+
+    <!-- §7 SEMANTIC -->
+    <div class="section-header">
+      <span class="section-num">7</span>
+      <span class="section-title">Semantic Test</span>
+    </div>
+    <div class="q-block">
+      <label class="q-label">What is the difference between a gift and a donation?</label>
+      <textarea class="txt-area" name="sem1" placeholder="—"></textarea>
+    </div>
+    <div class="q-block">
+      <label class="q-label">What is the difference between individual and specific?</label>
+      <textarea class="txt-area" name="sem2" placeholder="—"></textarea>
+    </div>
+    <div class="q-block">
+      <label class="q-label">What is the difference between a form and a quiz?</label>
+      <textarea class="txt-area" name="sem3" placeholder="—"></textarea>
+    </div>
+
+    <!-- §8 COMPASS -->
+    <div class="section-header">
+      <span class="section-num">8</span>
+      <span class="section-title">Compass Test</span>
+    </div>
+    <span class="q-note">Pick only one. Go with gut instinct. No thought.</span>
+    <div class="q-block">
+      <label class="q-label">Who is more fun on a night out?</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="compass1" value="dina"> Dina</label>
+        <label class="opt-label"><input type="radio" name="compass1" value="jessica"> Jessica</label>
+      </div>
+    </div>
+    <div class="q-block">
+      <label class="q-label">Who is more relevant?</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="compass2" value="molly"> Molly</label>
+        <label class="opt-label"><input type="radio" name="compass2" value="hannah"> Hannah</label>
+      </div>
+    </div>
+    <div class="q-block">
+      <label class="q-label">Who does everybody love?</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="compass3" value="chris"> Chris</label>
+        <label class="opt-label"><input type="radio" name="compass3" value="raymond"> Raymond</label>
+      </div>
+    </div>
+    <div class="q-block">
+      <label class="q-label">Who deserves the spotlight more?</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="compass4" value="samantha"> Samantha</label>
+        <label class="opt-label"><input type="radio" name="compass4" value="yuri"> Yuri</label>
+      </div>
+    </div>
+
+    <!-- §12 DARK TRIAD -->
+    <div class="section-header">
+      <span class="section-num">12</span>
+      <span class="section-title">Dark Triad Test</span>
+    </div>
+    <div class="q-block">
+      <label class="q-label">Would you consider yourself more a Lover or a Flower?</label>
+      <div class="options-row">
+        <label class="opt-label"><input type="radio" name="lover_flower" value="lover"> Lover</label>
+        <label class="opt-label"><input type="radio" name="lover_flower" value="flower"> Flower</label>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-zone">
+      <p class="submit-note">
+        Thank you for completing the Aura Test.<br>
+        <span class="stamp-note">NO SAVED DATA · DESIGNED TO DRIVE CONVERSATION NOT DATA</span><br>
+        <em style="font-size:10px;color:#aaa;">If you feel sick at any time, mark the test Invalide! and rest.</em>
+      </p>
+      <button class="submit-btn" onclick="submitTest()">Generate Aura Card →</button>
+    </div>
+  </form>
+</div>
+
+<!-- ═══ RESULT ═══ -->
+<section id="result-section">
+  <div class="result-card" id="result-card">
+    <div class="aura-colour-display" id="result-orb"></div>
+    <div class="result-poke-card-wrap" id="result-poke-wrap"></div>
+    <div class="result-card-overall" id="result-overall">Overall Aura Score: ??</div>
+    <hr class="divider" style="margin:16px 0;">
+    <div class="result-card-desc" id="result-desc"></div>
+    <div class="result-power-bars" id="result-bars"></div>
+    <div class="result-special" id="result-special"></div>
+    <div class="result-footer">
+      AURA TEST IX · MAYA UNIVERSITY · AURAT3ST.COM<br>
+      Conversation is the new Data.<br>
+      <span style="color:#ccc;">For Blue Auras: MayaPSOS, The Ministry, 3 Hunter James Street, London SE1 0AG</span>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:32px;">
+    <button class="invalid-btn" onclick="markInvalide()">Mark Test Invalide!</button>
+    <button class="invalid-btn" onclick="location.reload()">Retake Test</button>
+  </div>
+</section>
+
+<script>
+// ══════════════════════════════════════════════
+//  YSYM toggles
+// ══════════════════════════════════════════════
+document.querySelectorAll('.ysym-table tbody tr').forEach(row => {
+  row.querySelectorAll('.ysym-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      row.querySelectorAll('.ysym-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+});
+
+// ══════════════════════════════════════════════
+//  Radio styling
+// ══════════════════════════════════════════════
+document.addEventListener('change', e => {
+  if (e.target.type === 'radio') {
+    const n = e.target.name;
+    document.querySelectorAll(`input[name="${n}"]`).forEach(r => r.closest('.opt-label').classList.remove('selected'));
+    e.target.closest('.opt-label').classList.add('selected');
+  }
+});
+
+// ══════════════════════════════════════════════
+//  EMOJI REACTS
+// ══════════════════════════════════════════════
+document.querySelectorAll('.emoji-reacts').forEach(group => {
+  group.querySelectorAll('.emoji-btn').forEach(btn => {
+    btn.addEventListener('click', () => btn.classList.toggle('reacted'));
+  });
+});
+
+// ══════════════════════════════════════════════
+//  CROSS TEST — interactive canvas
+// ══════════════════════════════════════════════
+const CROSS_POINTS = [
+  { label: 'Fear',        color: '#e74c3c' },
+  { label: 'Desire',      color: '#9b59b6' },
+  { label: 'Success',     color: '#27ae60' },
+  { label: 'Humiliation', color: '#e67e22' },
+  { label: 'Politician',  color: '#2980b9' },
+  { label: 'Statistician',color: '#16a085' },
+  { label: 'Musician',    color: '#f39c12' },
+  { label: 'Magician',    color: '#8e44ad' },
+];
+
+const canvas = document.getElementById('crossCanvas');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+let crossDots = []; // {index, x, y}
+let nextPoint = 0;
+let dragging = null;
+
+function drawCross() {
+  ctx.clearRect(0, 0, W, H);
+  // grid
+  ctx.strokeStyle = '#e0d8c8'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 10; i++) {
+    const x = W * i / 10, y = H * i / 10;
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+  // axes
+  ctx.strokeStyle = '#a09080'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(W/2, 0); ctx.lineTo(W/2, H); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, H/2); ctx.lineTo(W, H/2); ctx.stroke();
+  // dots
+  crossDots.forEach(d => {
+    const pt = CROSS_POINTS[d.index];
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, 8, 0, Math.PI*2);
+    ctx.fillStyle = pt.color + 'cc';
+    ctx.fill();
+    ctx.strokeStyle = pt.color;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    // label
+    ctx.fillStyle = '#1a1208';
+    ctx.font = '9px IBM Plex Mono, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(pt.label.slice(0,4).toUpperCase(), d.x, d.y - 12);
+  });
+  updateLegend();
+  saveCrossData();
+}
+
+function updateLegend() {
+  const leg = document.getElementById('crossLegend');
+  leg.innerHTML = '';
+  CROSS_POINTS.forEach((pt, i) => {
+    const placed = crossDots.find(d => d.index === i);
+    const div = document.createElement('div');
+    div.className = 'cross-legend-item';
+    div.style.opacity = placed ? '1' : '0.35';
+    const xVal = placed ? Math.round((placed.x / W) * 100) : '—';
+    const yVal = placed ? Math.round((1 - placed.y / H) * 100) : '—';
+    div.innerHTML = `<span class="cross-dot" style="background:${pt.color}"></span>
+      <span>${pt.label}</span>
+      <span class="cross-coords">${placed ? `(${xVal}, ${yVal})` : 'unplaced'}</span>`;
+    leg.appendChild(div);
+  });
+}
+
+function saveCrossData() {
+  const data = crossDots.map(d => ({
+    label: CROSS_POINTS[d.index].label,
+    x: Math.round((d.x / W) * 100),
+    y: Math.round((1 - d.y / H) * 100)
+  }));
+  document.getElementById('cross_data').value = JSON.stringify(data);
+}
+
+function canvasPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = W / rect.width, scaleY = H / rect.height;
+  const cx = e.touches ? e.touches[0].clientX : e.clientX;
+  const cy = e.touches ? e.touches[0].clientY : e.clientY;
+  return { x: (cx - rect.left) * scaleX, y: (cy - rect.top) * scaleY };
+}
+
+function hitDot(x, y) {
+  return crossDots.findIndex(d => Math.hypot(d.x - x, d.y - y) < 12);
+}
+
+canvas.addEventListener('mousedown', e => {
+  const {x, y} = canvasPos(e);
+  const hit = hitDot(x, y);
+  if (hit >= 0) {
+    if (e.detail === 2) { crossDots.splice(hit, 1); drawCross(); return; }
+    dragging = hit;
+  } else if (nextPoint < CROSS_POINTS.length) {
+    crossDots.push({ index: nextPoint++, x, y });
+    drawCross();
+  }
+});
+canvas.addEventListener('mousemove', e => {
+  if (dragging === null) return;
+  const {x, y} = canvasPos(e);
+  crossDots[dragging].x = Math.max(8, Math.min(W-8, x));
+  crossDots[dragging].y = Math.max(8, Math.min(H-8, y));
+  drawCross();
+});
+canvas.addEventListener('mouseup', () => dragging = null);
+canvas.addEventListener('mouseleave', () => dragging = null);
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  const {x, y} = canvasPos(e);
+  const hit = hitDot(x, y);
+  if (hit >= 0) { dragging = hit; }
+  else if (nextPoint < CROSS_POINTS.length) { crossDots.push({ index: nextPoint++, x, y }); drawCross(); }
+}, { passive: false });
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if (dragging === null) return;
+  const {x, y} = canvasPos(e);
+  crossDots[dragging].x = Math.max(8, Math.min(W-8, x));
+  crossDots[dragging].y = Math.max(8, Math.min(H-8, y));
+  drawCross();
+}, { passive: false });
+canvas.addEventListener('touchend', () => dragging = null);
+
+drawCross();
+
+// ══════════════════════════════════════════════
+//  LEGENDARY POKEMON SPRITE BANK (single unified picker)
+// ══════════════════════════════════════════════
+const LEGENDARY_IDS = [
+  144,145,146,150,151,243,244,245,249,250,251,377,378,379,380,381,382,383,384,385,386,
+  480,481,482,483,484,485,486,487,488,489,490,491,492,493,638,639,640,641,642,643,644,
+  645,646,647,648,649,716,717,718,719,720,721,772,773,785,786,787,788,789,790,791,792,
+  793,794,795,796,797,798,799,800,801,802,888,889,890,891,892,893,894,895,896,897,898
+];
+
+let sprites = {};
+let chosenSprite = null;
+
+function spriteUrl(id) {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+}
+
+function loadSpriteToCanvas(url, targetCanvas) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const c = targetCanvas || document.createElement('canvas');
+      c.width = 96; c.height = 96;
+      const cx = c.getContext('2d');
+      cx.imageSmoothingEnabled = false;
+      cx.drawImage(img, 0, 0, 96, 96);
+      resolve(c);
+    };
+    img.onerror = () => {
+      const c = targetCanvas || document.createElement('canvas');
+      c.width = 96; c.height = 96;
+      resolve(c);
+    };
+    img.src = url;
+  });
+}
+
+function buildSpritePicker(ids, containerId) {
+  const container = document.getElementById(containerId);
+  ids.forEach(id => {
+    const wrap = document.createElement('div');
+    wrap.className = 'sprite-opt';
+    wrap.dataset.id = id;
+    const c = document.createElement('canvas');
+    c.width = 96; c.height = 96;
+    wrap.appendChild(c);
+    const num = document.createElement('span');
+    num.className = 'sprite-num';
+    num.textContent = '#' + id;
+    wrap.appendChild(num);
+    container.appendChild(wrap);
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const cx = c.getContext('2d');
+      cx.imageSmoothingEnabled = false;
+      cx.drawImage(img, 0, 0, 96, 96);
+      sprites[id] = c;
+    };
+    img.src = spriteUrl(id);
+
+    wrap.addEventListener('click', () => {
+      container.querySelectorAll('.sprite-opt').forEach(o => o.classList.remove('chosen'));
+      wrap.classList.add('chosen');
+      chosenSprite = id;
+      drawChosenSprite();
+    });
+  });
+}
+
+function drawChosenSprite() {
+  const pokeC = document.getElementById('pokeCanvas');
+  const cx = pokeC.getContext('2d');
+  cx.clearRect(0, 0, 96, 96);
+  cx.imageSmoothingEnabled = false;
+
+  if (chosenSprite && sprites[chosenSprite]) {
+    cx.drawImage(sprites[chosenSprite], 0, 0, 96, 96);
+  }
+
+  // Update HP and type
+  const hp = (chosenSprite || 150) % 120 + 40;
+  document.getElementById('cardHp').textContent = hp;
+  document.getElementById('cardType').textContent = chosenSprite ? `#${chosenSprite}` : 'LEGENDARY';
+}
+
+buildSpritePicker(LEGENDARY_IDS, 'spritePicker');
+
+// ── Live card updates ──
+document.getElementById('inputName').addEventListener('input', e => {
+  document.getElementById('cardName').textContent = e.target.value.toUpperCase() || '——';
+});
+document.getElementById('inputDesc').addEventListener('input', e => {
+  document.getElementById('cardDesc').textContent = e.target.value || 'Awaiting description...';
+});
+document.getElementById('inputMove').addEventListener('input', e => {
+  document.getElementById('cardMove').innerHTML = `<strong>Special Move —</strong> ${e.target.value || 'awaiting input'}`;
+});
+
+function updatePreviewBar(key, val) {
+  const v = Math.min(100, Math.max(0, parseInt(val) || 0));
+  const bar = document.getElementById('pb-' + key);
+  const lbl = document.getElementById('pv-' + key);
+  if (bar) bar.style.width = v + '%';
+  if (lbl) lbl.textContent = v;
+}
+
+// ══════════════════════════════════════════════
+//  AURA COLOUR
+// ══════════════════════════════════════════════
+const AURA_COLOURS = {
+  walnut: "#8B6F47", pecan: "#8B6F47", almond: "#F5E6C8",
+  cashew: "#E8D5A3", hazelnut: "#A0785A", macadamia: "#F0E6D3",
+  deep: "#1A3A5C", winding: "#2E8B57", long: "#8B4513", flowing: "#4682B4",
+  "secondary school": "#6A0DAD", birthplace: "#C41E3A",
+  parents: "#FF8C00", accent: "#20B2AA", lover: "#FF1493", flower: "#7CFC00"
+};
+
+function computeAuraColour(data) {
+  let colour = "#9B59B6";
+  for (const key of [data.nut, data.river, data.origin, data.lover_flower]) {
+    if (key && AURA_COLOURS[key.toLowerCase()]) { colour = AURA_COLOURS[key.toLowerCase()]; break; }
+  }
+  try {
+    const apology = Math.min(100, Math.max(0, parseInt(data.apology_pct) || 50));
+    let r = parseInt(colour.slice(1,3), 16);
+    let g = parseInt(colour.slice(3,5), 16);
+    let b = parseInt(colour.slice(5,7), 16);
+    r = Math.min(255, r + Math.floor(apology / 5));
+    b = Math.min(255, b + Math.floor(apology / 4));
+    colour = '#' + r.toString(16).padStart(2,'0') + g.toString(16).padStart(2,'0') + b.toString(16).padStart(2,'0');
+  } catch(e) {}
+  return colour;
+}
+
+// ══════════════════════════════════════════════
+//  FORM COLLECT
+// ══════════════════════════════════════════════
+function collectForm() {
+  const data = {};
+  new FormData(document.getElementById('aura-form')).forEach((v,k) => data[k] = v);
+  document.querySelectorAll('.ysym-table tbody tr').forEach(row => {
+    const active = row.querySelector('.ysym-btn.active');
+    if (active) data['ysym_' + row.dataset.key] = active.dataset.opt;
+  });
+  // emoji reacts
+  document.querySelectorAll('.emoji-reacts').forEach(group => {
+    const reacted = [...group.querySelectorAll('.emoji-btn.reacted')].map(b => b.dataset.emoji).join('');
+    if (reacted) data['emoji_' + group.dataset.group] = reacted;
+  });
+  return data;
+}
+
+// ══════════════════════════════════════════════
+//  START / SUBMIT
+// ══════════════════════════════════════════════
+function startTest() {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('test-form').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+function submitTest() {
+  const btn = document.querySelector('.submit-btn');
+  btn.textContent = 'Computing Aura...';
+  btn.disabled = true;
+
+  const data = collectForm();
+  const personality = calculatePersonalityAura(data);
+  const bg = personality.color;
+
+  function safeInt(v, d=50) { const n = parseInt(v); return isNaN(n) ? d : Math.min(100, Math.max(0,n)); }
+  const a = safeInt(data.apology_pct);
+  const b = safeInt(data.forgive_pct);
+  const c = safeInt(data.forget_pct);
+  const d2 = safeInt(data.dosay_pct);
+
+  const card = {
+    bg,
+    name: ((data.pokemon_name || 'UNKNOWN').slice(0,20)).toUpperCase(),
+    description: (data.pokemon_desc || 'A being of uncertain origin.').slice(0,140),
+    special_move: (data.special_move || 'Stares into the middle distance').slice(0,80),
+    bravery: a, strength: b, cheer: c, sterling: d2,
+    overall: personality.total,
+    mbti: personality.mbti,
+    ocean: personality.ocean,
+    hp: parseInt(document.getElementById('cardHp').textContent) || 60,
+    type: document.getElementById('cardType').textContent,
+  };
+  showResult(card, bg);
+  btn.textContent = 'Generate Aura Card →';
+  btn.disabled = false;
+}
+
+
+function calculatePersonalityAura(data){
+  let E=50,I=50,S=50,N=50,T=50,F=50,J=50,P=50;
+  let O=50,C=50,EX=50,A=50,NE=50;
+
+  if(data.archetype==='musician'){N+=15;O+=15;}
+  if(data.archetype==='statistician'){T+=15;C+=15;}
+  if(data.archetype==='politician'){E+=15;EX+=10;}
+  if(data.archetype==='magician'){N+=20;O+=20;}
+
+  if(data.difficulty_response==='feedback'){T+=10;J+=10;C+=10;}
+  if(data.difficulty_response==='cry'){F+=10;A+=5;}
+  if(data.difficulty_response==='puzzlement'){N+=10;O+=10;}
+
+  if(data.ysym_decisions==='Y'){J+=15;C+=15;}
+  if(data.ysym_travelling==='Y'){A+=10;}
+  if(data.ysym_performing==='Y'){N+=10;}
+  if(data.ysym_corners==='Y'){P+=10;C-=10;}
+
+  const mbti=Math.round((Math.max(E,I)+Math.max(S,N)+Math.max(T,F)+Math.max(J,P))/4);
+  const ocean=Math.round((O+C+EX+A+(100-NE))/5);
+  const total=Math.round((mbti+ocean)/2);
+
+  let color='#e74c3c';
+  if(total>=90) color='#ffffff';
+  else if(total>=80) color='#7d5fff';
+  else if(total>=70) color='#3498db';
+  else if(total>=60) color='#2ecc71';
+  else if(total>=50) color='#f39c12';
+
+  return {mbti,ocean,total,color};
+}
+
+function showResult(card, bg) {
+  document.getElementById('test-form').style.display = 'none';
+  document.getElementById('result-section').style.display = 'block';
+  document.body.style.backgroundColor = bg + '22';
+  document.getElementById('result-orb').style.backgroundColor = bg;
+  document.getElementById('result-card').style.borderColor = bg;
+  document.getElementById('result-overall').textContent = `Aura Resonance: ${card.overall}`;
+  document.getElementById('result-desc').textContent = card.description || '';
+  document.getElementById('result-special').innerHTML = `SPECIAL MOVE — <span>${card.special_move || '—'}</span>`;
+
+  // Clone the pokemon card into the result
+  const wrap = document.getElementById('result-poke-wrap');
+  wrap.innerHTML = '';
+  const clone = document.getElementById('pokeCard').cloneNode(true);
+  clone.style.margin = '0 auto';
+  // update cloned bar colours
+  clone.querySelectorAll('.poke-bar-inner').forEach(b => b.style.background = bg);
+  wrap.appendChild(clone);
+
+  const srcCanvas=document.getElementById('pokeCanvas');
+  const dstCanvas=clone.querySelector('#pokeCanvas');
+  if(srcCanvas && dstCanvas){
+    const dctx=dstCanvas.getContext('2d');
+    dctx.clearRect(0,0,dstCanvas.width,dstCanvas.height);
+    dctx.drawImage(srcCanvas,0,0);
+  }
+
+  const bars = document.getElementById('result-bars');
+  bars.innerHTML = '';
+  [['BRAVERY', card.bravery],['STRENGTH', card.strength],['CHEER', card.cheer],['STERLING', card.sterling]].forEach(([label, val]) => {
+    const v = val ?? 50;
+    bars.innerHTML += `<div class="power-row">
+      <span class="power-row-label">${label}</span>
+      <div class="power-bar-outer"><div class="power-bar-inner" style="width:${v}%;background:${bg}"></div></div>
+      <span class="power-val">${v}%</span>
+    </div>`;
+  });
+
+  window.scrollTo(0,0);
+}
+
+function markInvalide() {
+  document.getElementById('result-section').style.display = 'none';
+  const cover = document.getElementById('cover');
+  cover.style.display = 'flex';
+  document.body.style.backgroundColor = '';
+  if (!cover.querySelector('.invalide-stamp')) {
+    const s = document.createElement('div');
+    s.className = 'invalide-stamp';
+    s.style.cssText = 'font-family:"Special Elite",cursive;font-size:28px;color:#8b0000;letter-spacing:6px;transform:rotate(-4deg);border:4px solid #8b0000;padding:10px 24px;margin-top:20px;';
+    s.textContent = 'INVALIDE!';
+    cover.appendChild(s);
+  }
+  window.scrollTo(0,0);
+}
+
+
+// ===== JUNGIAN SCORING PATCH =====
+const GRADE_AURAS={S:'#FFFFFF',A:'#7D5FFF',B:'#3498DB',C:'#2ECC71',D:'#F39C12',E:'#E74C3C'};
+function getAuraGrade(score){
+ if(score>=95)return 'S';
+ if(score>=85)return 'A';
+ if(score>=70)return 'B';
+ if(score>=55)return 'C';
+ if(score>=40)return 'D';
+ return 'E';
+}
+function jungianScore(data){
+ let ego=50,shadow=50,thinking=50,intuition=50;
+ if(data.ysym_decisions==='Y') ego+=15;
+ if(data.ysym_performing==='Y') shadow+=15;
+ if((data.sem1||'').length>40) thinking+=10;
+ if((data.sem2||'').length>40) thinking+=10;
+ if((data.rewot1||'').length>20) intuition+=10;
+ const total=Math.round((ego+shadow+thinking+intuition)/4);
+ return {total,grade:getAuraGrade(total)};
+}
+const _oldSubmit=submitTest;
+submitTest=function(){
+ const data=collectForm();
+ const psyche=jungianScore(data);
+ const color=GRADE_AURAS[psyche.grade];
+ document.body.dataset.auraGrade=psyche.grade;
+ const oldShow=showResult;
+ showResult=function(card,bg){
+   card.overall=psyche.total;
+   oldShow(card,color);
+   const overall=document.getElementById('result-overall');
+   if(overall) overall.textContent=`Aura Grade: ${psyche.grade} • Score: ${psyche.total}`;
+ };
+ _oldSubmit();
+};
+// ===== END PATCH =====
+
+</script>
+</body>
+</html>
